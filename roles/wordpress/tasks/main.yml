@@ -1,0 +1,42 @@
+---
+- name: Copy Wordpress config files to remote host
+  ansible.builtin.copy:
+    src: ./roles/wordpress/templates/
+    dest: /tmp/wordpress/
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: Build Worpress image from Dockerfile
+  community.docker.docker_image:
+    name: wordpress
+    tag: my_img
+    source: build
+    build:
+      path: /tmp/wordpress
+
+- name: Run wordpress Container
+  community.docker.docker_container:
+    name: wordpress
+    image: wordpress:my_img
+    restart_policy: always
+    exposed_ports:
+      - "9000"
+    env:
+      WORDPRESS_DB_HOST: mariadb
+      MARIADB_DATABASE: "{{ MARIADB_DATABASE }}"
+      MARIADB_USER: "{{ MARIADB_USER }}"
+      MARIADB_PASSWORD: "{{ MARIADB_PASSWORD }}"
+      WORDPRESS_DB_TITLE: "{{ WORDPRESS_DB_TITLE }}"
+      WORDPRESS_DB_ADMIN_EMAIL: "{{ WORDPRESS_DB_ADMIN_EMAIL }}"
+      WORDPRESS_DB_ADMIN_PWD: "{{ WORDPRESS_DB_ADMIN_PWD }}"
+      WORDPRESS_DB_ADMIN: "{{ WORDPRESS_DB_ADMIN }}"
+      DOMAIN: "{{ DOMAIN }}"
+      WP_USER: "{{ WP_USER }}"
+      WP_PWD: "{{ WP_PWD }}"
+      WP_EMAIL: "{{ WP_EMAIL }}"
+    volumes:
+      - web_data:/var/www/html
+    networks:
+      - name: inception_network

@@ -1,0 +1,32 @@
+---
+- name: Copy entrypoint file
+  ansible.builtin.copy:
+    src: ./roles/database/templates/
+    dest: /tmp/mariadb
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Build Mariadb image from dockerfile
+  community.docker.docker_image:
+    name: mariadb
+    tag: my_img
+    source: build
+    build:
+      path: /tmp/mariadb/
+
+- name: Run mariadb container
+  community.docker.docker_container:
+    name: mariadb
+    image: mariadb:my_img
+    state: started
+    tty: true
+    env:
+      MARIADB_ROOT_PASSWORD: "{{ MARIADB_ROOT_PASSWORD }}"
+      MARIADB_DATABASE: "{{ MARIADB_DATABASE }}"
+      MARIADB_USER: "{{ MARIADB_USER }}"
+      MARIADB_PASSWORD: "{{ MARIADB_PASSWORD }}"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - name: inception_network

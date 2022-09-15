@@ -1,0 +1,39 @@
+---
+- name: Create a docker network
+  docker_network:
+    name: inception_network
+
+- name: Create volumes directories
+  ansible.builtin.file:
+    path: "data/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - html
+    - database
+
+- name: Create a volume for nginx and wordpress
+  docker_volume:
+    name: web_data
+    driver_options:
+      type: none
+      o: bind
+      device: /root/data/html
+
+- name: Create database volume
+  docker_volume:
+    name: db_data
+    driver_options:
+      type: none
+      o: bind
+      device: root/data/database
+
+- name: Copy Dockerfiles
+  copy:
+    src: ./Dockerfiles/
+    dest: /tmp
+    owner: root
+    group: root
+    mode: '0755'
+    
+...

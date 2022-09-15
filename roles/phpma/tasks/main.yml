@@ -1,0 +1,33 @@
+---
+- name: Copy files for phpMyAdmin
+  copy:
+    src: ./roles/phpma/templates/{{ item.src }}
+    dest: /tmp/phpma/{{ item.dest }}
+    owner: root
+    group: root
+    mode: 0666
+  with_items:
+    - { src: config.inc.php.j2, dest: config.inc.php }
+    #- { src: index.php, dest: index.php }
+
+- name: Build phpMyAdmin image from Dockerfile
+  community.docker.docker_image:
+    name: phpma
+    tag: my_img
+    source: build
+    build:
+      path: /tmp/phpma
+
+- name: Run phpMyAdmin Container
+  community.docker.docker_container:
+    name: phpma
+    image: phpma:my_img
+    restart_policy: always
+    env:
+      PMA_HOST: "{{ WORDPRESS_DB_HOST }}"
+      PMA_USER: root
+      PMA_PASSWORD: "{{ MARIADB_ROOT_PASSWORD }}"
+    networks:
+      - name: inception_network  
+    ports:
+      - "9001:80"

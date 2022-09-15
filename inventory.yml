@@ -1,0 +1,8 @@
+---
+server:
+  vars:
+    ansible_user: root
+    ansible_python_interpreter: "/usr/bin/python3.8"
+  hosts:
+    cloud-one-nade: 
+        ansible_host: 51.158.75.16
