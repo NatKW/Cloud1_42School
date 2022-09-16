@@ -1,7 +1,7 @@
 DOMAIN: cloud-one-nade-la.duckdns.org
 MARIADB_DATABASE: cloud1_db
 MARIADB_USER: nade
-WORDPRESS_DB_TITLE: Cloud_0ne
+WORDPRESS_DB_TITLE: Nade_Cloud_one
 WORDPRESS_DB_HOST: mariadb
 WORDPRESS_DB_NAME: Cloud-1_Website
 WORDPRESS_DB_ADMIN: nade-la-
