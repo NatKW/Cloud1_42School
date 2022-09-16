@@ -9,4 +9,6 @@
         - stop
         - kill
     - role: remove_all_volumes 
-      tags: kill    
+      tags: kill
+    - role: remove_all_prerequisites
+      tags: clean      

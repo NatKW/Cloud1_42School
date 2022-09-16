@@ -1,11 +1,17 @@
---- 
-- name: Install tools
+---
+- name: Desinstall tools
   apt: 
     name: ['git', 'wget', 'curl', 'aptitude', 'lsb-release']
-    state: present
+    state: absent
     update_cache: yes
 
-- name: Add docker prerequisites
+- name: Desinstall docker python module
+  pip:
+      name: 
+      - docker
+      state: absent
+
+- name: Remove docker prerequisites
   apt:
       pkg:
         - ca-certificates
@@ -16,20 +22,15 @@
         - python3-setuptools
       update_cache: yes
       autoclean: true
+      state: absent 
 
-- name: Check for older Docker-version
-  apt: 
-    name: docker.docker-engine
-    state: absent       
-
-- name: Update apt and install docker
+- name: Update apt and remove docker
   apt:
     name: docker.io
-    state: latest
+    state: absent
     update_cache: true
-    
-- name: install docker python module
-  pip:
-      name: 
-      - docker
-...
+
+- name: Clean unwanted older stuff
+  apt:
+    autoremove: yes
+    purge: yes    
