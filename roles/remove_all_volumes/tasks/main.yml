@@ -1,0 +1,9 @@
+---
+
+- name: remove volume on remote server
+  shell: rm -rf data
+  args:
+    chdir: /root
+
+- name: remove all docker volumes
+  shell: docker rm $(docker volume ls -q) 

@@ -27,11 +27,11 @@
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
-- name: Add the official Docker repository to the apt sources
-  apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
-    state: present
-    update_cache: true
+#- name: Add the official Docker repository to the apt sources
+#  apt_repository:
+#    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
+#    state: present
+#    update_cache: true
 
 - name: Update apt and install docker
   apt:

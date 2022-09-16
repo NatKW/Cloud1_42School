@@ -30,4 +30,4 @@
     networks:
       - name: inception_network  
     ports:
-      - "9001:80"
+      - "9001:9001"

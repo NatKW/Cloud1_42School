@@ -5,4 +5,8 @@
 
   roles:
     - role: remove_all_containers
-      tags: stop
+      tags: 
+        - stop
+        - kill
+    - role: remove_all_volumes 
+      tags: kill    

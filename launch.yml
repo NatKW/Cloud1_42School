@@ -10,7 +10,7 @@
     - role: install
       tags:
         - install 
-        - setup
+    #    - setup
     - role: docker
       tags:
         - docker
