@@ -6,4 +6,4 @@
     chdir: /root
 
 - name: remove all docker volumes
-  shell: docker rm $(docker volume ls -q) 
+  shell: docker volume rm $(docker volume ls -q) 
