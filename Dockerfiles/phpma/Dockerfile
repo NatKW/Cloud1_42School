@@ -17,14 +17,15 @@ RUN mkdir -p /var/www/phpmyadmin
 RUN mkdir /var/www/phpmyadmin/tmp && chmod 0777 /var/www/phpmyadmin/tmp
 RUN cp -r /tmp/phpMyAdmin-5.2.0-english/* /var/www/phpmyadmin
 
+COPY ./www.conf /etc/php7/php-fpm.d/www.conf
 COPY ./config.inc.php /var/www/phpmyadmin/config.inc.php
 RUN	echo "\$cfg['blowfish_secret'] = '$(openssl rand -base64 32)';" >> /var/www/phpmyadmin/config.inc.php
 
-RUN sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9001/g' /etc/php7/php-fpm.d/www.conf
 RUN mkdir /run/php/
 RUN touch /var/log/php7/error.log \
 	&& chmod a+rwx /var/log/php7/error.log
-RUN chown -R nginx:nginx /var/www/phpmyadmin /run/php /var/log/php7/error.log
+RUN chown -R nginx:nginx /var/www/phpmyadmin /run/php /var/log/php7/error.log \
+	/etc/php7/php-fpm.d/www.conf
 
 USER nginx
 
