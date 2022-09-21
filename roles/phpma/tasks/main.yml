@@ -5,10 +5,9 @@
     dest: /tmp/phpma/{{ item.dest }}
     owner: root
     group: root
-    mode: 0666
+    mode: 0644
   with_items:
     - { src: config.inc.php.j2, dest: config.inc.php }
-    - { src: www.conf, dest: www.conf }
 
 - name: Build phpMyAdmin image from Dockerfile
   community.docker.docker_image:
@@ -25,11 +24,10 @@
     restart_policy: always
     env:
       PMA_HOST: "{{ WORDPRESS_DB_HOST }}"
-      PMA_USER: "{{ MARIADB_USER }}"
       PMA_PASSWORD: "{{ MARIADB_PASSWORD }}"
     networks:
       - name: inception_network
-        links:
-          - mariadb 
+    volumes:
+      - phpma_data:/var/www/html/phpmyadmin
     ports:
       - "9001:9001"

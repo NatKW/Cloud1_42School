@@ -4,12 +4,6 @@
     src: ./roles/server/templates/nginx.conf.j2
     dest: /tmp/nginx/nginx.conf
 
-#- name: copy index.html
-#  template: 
-#    src: ./roles/server/templates/index.html.j2 
-#    dest: /tmp/nginx/index.html
-#    mode: 0644
-
 - name: Build Nginx image from Dockerfile
   community.docker.docker_image:
     name: my_nginx
@@ -25,7 +19,7 @@
     image: my_nginx:my_img
     state: started
     ports:
-      - "443:443"
+      - "443:443"  
     volumes:
       - web_data:/var/www/html
     networks:

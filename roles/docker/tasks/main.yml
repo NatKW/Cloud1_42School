@@ -11,6 +11,7 @@
   loop:
     - html
     - database
+    - html/phpmyadmin
 
 - name: Create a volume for nginx and wordpress
   docker_volume:
@@ -27,6 +28,14 @@
       type: none
       o: bind
       device: root/data/database
+
+- name: Create PhpMyAdmin volume
+  docker_volume:
+    name: phpma_data
+    driver_options:
+      type: none
+      o: bind
+      device: root/data/html/phpmyadmin
 
 - name: Copy Dockerfiles
   copy:
