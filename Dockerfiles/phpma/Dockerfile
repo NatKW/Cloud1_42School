@@ -13,12 +13,12 @@ RUN	adduser -S nginx &&	addgroup -S nginx
 
 RUN wget "https://files.phpmyadmin.net/phpMyAdmin/5.2.0/phpMyAdmin-5.2.0-english.tar.gz" -O /tmp/phpMyAdmin.tar.gz
 RUN tar -xvzf /tmp/phpMyAdmin.tar.gz -C /tmp
-RUN mkdir -p /var/www/html/phpmyadmin/tmp && chmod 0777 /var/www/html/phpmyadmin/tmp
-RUN cp -r /tmp/phpMyAdmin-5.2.0-english/* /var/www/html/phpmyadmin
+RUN mkdir -p /var/www/phpmyadmin/tmp && chmod 0777 /var/www/phpmyadmin/tmp
+RUN cp -r /tmp/phpMyAdmin-5.2.0-english/* /var/www/phpmyadmin
 
-COPY ./config.inc.php /var/www/html/phpmyadmin/config.inc.php
-RUN	echo "\$cfg['blowfish_secret'] = '$(openssl rand -base64 32)';" >> /var/www/html/phpmyadmin/config.inc.php
-#RUN sed -i 's/listen = 9000/listen = 9001/g' /etc/php7/php-fpm.d/www.conf
+COPY ./config.inc.php /var/www/phpmyadmin/config.inc.php
+RUN	echo "\$cfg['blowfish_secret'] = '$(openssl rand -base64 32)';" >> /var/www/phpmyadmin/config.inc.php
+RUN sed -i 's/listen = 9000/listen = 9001/g' /etc/php7/php-fpm.d/www.conf
 
 RUN mkdir /run/php/
 RUN touch /var/log/php7/error.log \

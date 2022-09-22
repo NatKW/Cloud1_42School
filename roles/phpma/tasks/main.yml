@@ -25,9 +25,8 @@
     env:
       PMA_HOST: "{{ WORDPRESS_DB_HOST }}"
       PMA_PASSWORD: "{{ MARIADB_PASSWORD }}"
+    volumes:
+      - phpma_data:/var/www/phpmyadmin
     networks:
       - name: inception_network
-    volumes:
-      - phpma_data:/var/www/html/phpmyadmin
-    ports:
-      - "9001:9001"
+  

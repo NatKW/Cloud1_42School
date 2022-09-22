@@ -6,7 +6,7 @@
 
 - name: Build Nginx image from Dockerfile
   community.docker.docker_image:
-    name: my_nginx
+    name: nginx
     tag: my_img
     source: build
     build:
@@ -15,12 +15,13 @@
 
 - name: Run nginx Container
   community.docker.docker_container:
-    name: my_nginx
-    image: my_nginx:my_img
+    name: nginx
+    image: nginx:my_img
     state: started
     ports:
       - "443:443"  
     volumes:
       - web_data:/var/www/html
+      - phpma_data:/var/www/phpmyadmin
     networks:
       - name: inception_network
