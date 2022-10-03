@@ -16,15 +16,15 @@
     source: build
     build:
       path: /tmp/phpma
+      args:
+        PMA_HOST: "{{ CLOUD1_DB_HOST }}"
+        PMA_PASSWORD: "{{ MARIADB_PASSWORD }}"
 
 - name: Run phpMyAdmin Container
   community.docker.docker_container:
     name: phpma
     image: phpma:my_img
     restart_policy: always
-    env:
-      PMA_HOST: "{{ WORDPRESS_DB_HOST }}"
-      PMA_PASSWORD: "{{ MARIADB_PASSWORD }}"
     volumes:
       - phpma_data:/var/www/phpmyadmin
     networks:

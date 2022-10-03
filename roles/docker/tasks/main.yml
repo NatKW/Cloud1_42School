@@ -13,7 +13,7 @@
     - database
     - phpmyadmin
 
-- name: Create a volume for nginx and wordpress
+- name: Create a volume for nginx and CLOUD1
   docker_volume:
     name: web_data
     driver_options:
