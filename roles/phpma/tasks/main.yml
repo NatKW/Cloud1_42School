@@ -16,9 +16,8 @@
     source: build
     build:
       path: /tmp/phpma
-      args:
-        PMA_HOST: "{{ CLOUD1_DB_HOST }}"
-        PMA_PASSWORD: "{{ MARIADB_PASSWORD }}"
+  environment:
+      PMA_HOST: mariadb
 
 - name: Run phpMyAdmin Container
   community.docker.docker_container:
